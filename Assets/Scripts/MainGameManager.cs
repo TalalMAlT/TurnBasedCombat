@@ -86,6 +86,7 @@ public class MainGameManager : MonoBehaviour
         if (_enemyStatus.IsDead)
         {
             GoToEnding();
+            GameParameters.playerLife = _playerStatus.Life;
         }
         else
         {

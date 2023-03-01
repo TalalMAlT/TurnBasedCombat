@@ -172,6 +172,8 @@ MonoBehaviour:
   enemyStatusView: {fileID: 1970153033}
   _playerStatus: {fileID: 1136674369}
   _enemyStatus: {fileID: 1970153035}
+  buttonRoot: {fileID: 1205943405}
+  _enemycontroller: {fileID: 309321533}
 --- !u!1 &97379834
 GameObject:
   m_ObjectHideFlags: 0

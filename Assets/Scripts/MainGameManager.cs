@@ -15,6 +15,7 @@ public class MainGameManager : MonoBehaviour
     [SerializeField] private PlayerStatus _playerStatus;
     [SerializeField] private EnemyStatus _enemyStatus;
     [SerializeField] private GameObject buttonRoot;
+    [SerializeField] private EnemyController _enemycontroller;
     enum MainGameState
     {
         PlayerActionWait,
@@ -55,11 +56,11 @@ public class MainGameManager : MonoBehaviour
 
     void UpdatePlayerActionWait()
     {
-        if (_stateCounter == 0)
+        if (_stateCounter == 1)
         {
             Debug.Log("Start UpdatePlayerActionWait");
-            
-            ChangeState(MainGameState.PlayerActionDone);
+            buttonRoot.SetActive(true);
+          
 
         
         }
@@ -67,23 +68,25 @@ public class MainGameManager : MonoBehaviour
 
     void UpdatePlayerActionDone()
     {
-        if (_stateCounter == 0)
+        if (_stateCounter == 1)
         {
             Debug.Log("Start UpdatePlayerActionDone");
             //timeRemaining=3;
             //if(timeRemaining > 0){
             //timeRemaining -= Time.deltaTime;
             //}
-            ChangeState(MainGameState.EnemyActionDone);
+            buttonRoot.SetActive(false);
+            ChangeState(MainGameState.EnemyActionWait);
 
         }
     }
 
     void UpdateEnemyActionWait()
     {
-        if (_stateCounter == 0)
+        if (_stateCounter == 1)
         {
             Debug.Log("Start UpdateEnemyActionWait");
+            _enemycontroller.ChooseAction();
             ChangeState(MainGameState.EnemyActionDone);
 
         }
@@ -91,8 +94,12 @@ public class MainGameManager : MonoBehaviour
 
     void UpdateEnemyActionDone()
     {
-        if (_stateCounter == 0)
+        if (_stateCounter == 1)
         {
+            float timeRemaining=1.0f;
+            if(timeRemaining > 0){
+            timeRemaining -= Time.deltaTime;
+            }
             Debug.Log("Start UpdateEnemyActionDone");
         }
         
@@ -116,8 +123,7 @@ public class MainGameManager : MonoBehaviour
     public void Punch()
     {
         float r = UnityEngine.Random.Range(0, 1.0f);
-        if (turnController.IsPlayerTurn)
-        {
+       
             if (r < 0.67f)
             {
                 Debug.Log("Punch");
@@ -128,22 +134,21 @@ public class MainGameManager : MonoBehaviour
                 else
                 {
                     _enemyStatus.Damage(punchPower);
+                    
                 }
             }
             else
             {
                 Debug.Log("Punch Missed");
             }
+              ChangeState(MainGameState.PlayerActionDone);
 
-            turnController.Increment();
-        }
     }
 
     public void Kick()
     {
         float r = UnityEngine.Random.Range(0, 1.0f);
-        if (MainGameState.PlayerActionWait == _mainGameState)
-        {
+        
             if (r < 0.33f)
             {
                 Debug.Log("Kick");
@@ -162,29 +167,24 @@ public class MainGameManager : MonoBehaviour
             {
                 Debug.Log("Kick Missed");
             }
-
-            turnController.Increment();
-        }
+              ChangeState(MainGameState.PlayerActionDone);
     }
 
     public void Defend()
     {
-        if (turnController.IsPlayerTurn)
-        {
-            Debug.Log("Defend");
-            _playerStatus.IsDefending = true;
-            turnController.Increment();
-        }
+      
+        Debug.Log("Defend");
+        _playerStatus.IsDefending = true;
+          ChangeState(MainGameState.PlayerActionDone);
+            
     }
 
     public void Special()
     {
-        if (turnController.IsPlayerTurn)
-        {
-            Debug.Log("Special");
-            _playerStatus.IsDefending = false;
-            turnController.Increment();
-        }
+        
+        Debug.Log("Special");
+        _playerStatus.IsDefending = false;
+        ChangeState(MainGameState.PlayerActionDone);
     }
 
     public void GoToEnding()

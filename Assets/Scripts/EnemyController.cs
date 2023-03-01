@@ -7,11 +7,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private EnemyStatus enemyStatus;
     [ContextMenu("ChooseAction")]
     
-    void ChooseAction()
+    public void ChooseAction()
     {
-        if(turnController.IsPlayerTurn){
-        }
-        else{
             float r = UnityEngine.Random.Range(0, 1.0f);
         if (r < 0.6f)
         {
@@ -21,7 +18,7 @@ public class EnemyController : MonoBehaviour
         {
             Defend();
         }
-        }
+        
     }
 
     void Attack()

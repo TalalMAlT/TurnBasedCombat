@@ -57,6 +57,13 @@ public class MainGameManager : MonoBehaviour
         if (_stateCounter == 0)
         {
             Debug.Log("Start UpdatePlayerActionWait");
+            timeRemaining=3;
+            if(timeRemaining > 0){
+            timeRemaining -= Time.deltaTime;
+            }
+            ChangeState(MainGameState.PlayerActionWait);
+
+        
         }
     }
 
@@ -65,6 +72,8 @@ public class MainGameManager : MonoBehaviour
         if (_stateCounter == 0)
         {
             Debug.Log("Start UpdatePlayerActionDone");
+            ChangeState(MainGameState.EnemyActionDone);
+
         }
     }
 
@@ -73,6 +82,8 @@ public class MainGameManager : MonoBehaviour
         if (_stateCounter == 0)
         {
             Debug.Log("Start UpdateEnemyActionWait");
+            ChangeState(MainGameState.EnemyActionDone);
+
         }
     }
 

@@ -5,6 +5,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private TurnController turnController;
     [SerializeField] private PlayerStatus playerStatus;
     [SerializeField] private EnemyStatus enemyStatus;
+    [ContextMenu("ChooseAction")]
     void update(){
         ChooseAction();
     }

@@ -14,7 +14,7 @@ public class MainGameManager : MonoBehaviour
 
     [SerializeField] private PlayerStatus _playerStatus;
     [SerializeField] private EnemyStatus _enemyStatus;
-
+    [SerializeField] private GameObject buttonRoot;
     enum MainGameState
     {
         PlayerActionWait,
@@ -70,10 +70,10 @@ public class MainGameManager : MonoBehaviour
         if (_stateCounter == 0)
         {
             Debug.Log("Start UpdatePlayerActionDone");
-            timeRemaining=3;
-            if(timeRemaining > 0){
-            timeRemaining -= Time.deltaTime;
-            }
+            //timeRemaining=3;
+            //if(timeRemaining > 0){
+            //timeRemaining -= Time.deltaTime;
+            //}
             ChangeState(MainGameState.EnemyActionDone);
 
         }
@@ -189,6 +189,8 @@ public class MainGameManager : MonoBehaviour
 
     public void GoToEnding()
     {
+        GameParameters.Instance.playerLife = _playerStatus.Life;
         SceneManager.LoadScene("Ending");
+        
     }
 }

@@ -50,6 +50,7 @@ public class MainGameManager : MonoBehaviour
                 UpdateEnemyActionDone();
                 break;
         }
+        _stateCounter++;
     }
 
     void UpdatePlayerActionWait()
@@ -86,7 +87,7 @@ public class MainGameManager : MonoBehaviour
         if (_enemyStatus.IsDead)
         {
             GoToEnding();
-            GameParameters.playerLife = _playerStatus.Life;
+            GameParameters.Instance.playerLife = _playerStatus.Life;
         }
         else
         {

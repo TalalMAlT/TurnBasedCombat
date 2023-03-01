@@ -104,6 +104,5 @@ public class SpriteAnimator : MonoBehaviour {
             yield return new WaitForSeconds( oneFrameSec );
             frameCounter++;
 		}
-        isPlaying = false;
 	}
 }

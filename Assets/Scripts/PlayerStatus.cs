@@ -20,7 +20,7 @@ public class PlayerStatus : MonoBehaviour
     public void ConsumeSpecialPoint(int amount)
     {
         Debug.Assert(IsEnableToUseSpecial);
-        SpecialPoint = Mathf.Max(0, SpecialPoint - amount);
+        SpecialPoint = Mathf.Max(0, SpecialPoint - amount); 
     }
 
 }

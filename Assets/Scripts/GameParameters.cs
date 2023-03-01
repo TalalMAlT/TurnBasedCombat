@@ -5,9 +5,9 @@ public class GameParameters : MonoBehaviour
     public static GameParameters Instance;
 
     //please add parameters which you want to share
-    public int playerLife;
-    public int playerSpecialPoint;
-    public int currentLevel;
+    public int playerLife=4;
+    public int playerSpecialPoint=4;
+    public int currentLevel=0;
 
     [RuntimeInitializeOnLoadMethod]
     static void Initialize()

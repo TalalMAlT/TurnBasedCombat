@@ -30,6 +30,9 @@ public class MainGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _playerStatus.Life =  GameParameters.Instance.playerLife;
+         _playerStatus.SpecialPoint =  GameParameters.Instance.playerSpecialPoint;
+
         ChangeState(MainGameState.PlayerActionWait);
     }
 
@@ -106,6 +109,8 @@ public class MainGameManager : MonoBehaviour
         if (_enemyStatus.IsDead)
         {
             GoToEnding();
+            GameParameters.Instance.currentLevel+=1;
+            Debug.Log("current level = "+GameParameters.Instance.currentLevel);
             GameParameters.Instance.playerLife = _playerStatus.Life;
         }
         else
@@ -141,8 +146,15 @@ public class MainGameManager : MonoBehaviour
             {
                 Debug.Log("Punch Missed");
             }
+             SP_check();
               ChangeState(MainGameState.PlayerActionDone);
 
+    }
+    void SP_check(){
+        if(_playerStatus.SpecialPoint < 4){
+                _playerStatus.SpecialPoint+=1;
+              }
+    
     }
 
     public void Kick()
@@ -167,6 +179,7 @@ public class MainGameManager : MonoBehaviour
             {
                 Debug.Log("Kick Missed");
             }
+              SP_check();
               ChangeState(MainGameState.PlayerActionDone);
     }
 
@@ -175,14 +188,23 @@ public class MainGameManager : MonoBehaviour
       
         Debug.Log("Defend");
         _playerStatus.IsDefending = true;
+            SP_check();
           ChangeState(MainGameState.PlayerActionDone);
+        
             
     }
 
     public void Special()
     {
-        
+        if(_playerStatus.SpecialPoint==4){
         Debug.Log("Special");
+        _enemyStatus.Damage(2);
+        _playerStatus.SpecialPoint-=4;
+        Debug.Log("Sp = "+_playerStatus.SpecialPoint);
+        }
+        else{
+            Debug.Log("Points are not enough :)");
+        }
         _playerStatus.IsDefending = false;
         ChangeState(MainGameState.PlayerActionDone);
     }
@@ -190,7 +212,8 @@ public class MainGameManager : MonoBehaviour
     public void GoToEnding()
     {
         GameParameters.Instance.playerLife = _playerStatus.Life;
-        SceneManager.LoadScene("Ending");
-        
+        SceneManager.LoadScene("Move");
+      GameParameters.Instance.playerSpecialPoint= _playerStatus.SpecialPoint;
+
     }
 }

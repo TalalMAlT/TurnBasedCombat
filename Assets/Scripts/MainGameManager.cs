@@ -269,8 +269,23 @@ public class MainGameManager : MonoBehaviour
     public void GoToEnding()
     {
         GameParameters.Instance.playerLife = _playerStatus.Life;
-        SceneManager.LoadScene("Move");
+      SwitchLevel();
       GameParameters.Instance.playerSpecialPoint= _playerStatus.SpecialPoint;
+
+    }
+    void SwitchLevel(){
+         switch (GameParameters.Instance.currentLevel)
+        {
+            case 0 or 1:
+                SceneManager.LoadScene("Move");
+                break;
+            case 2 or 3 or 4:
+                SceneManager.LoadScene("Move 1");
+                break;
+            case 5 or 6 or 7:
+                SceneManager.LoadScene("Move 2");
+                break;    
+        }
 
     }
 }

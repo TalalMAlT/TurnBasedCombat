@@ -12,15 +12,21 @@ EditorBuildSettings:
     path: Assets/Scenes/MainGame.unity
     guid: 0825de349fca240fd817b1569295e274
   - enabled: 1
-    path: Assets/Scenes/Ending.unity
-    guid: 722022ef019e34a35b9544005072a542
-  - enabled: 1
     path: Assets/Scenes/Move.unity
     guid: 32d157bae9f1f4a3a8eba4b519b50649
   - enabled: 1
-    path: Assets/Scenes/Move 2.unity
-    guid: a7a6878f4b0f54f4d97fd8033f3b1485
+    path: Assets/Scenes/Move1.unity
+    guid: c0e5b0f81ec7a0240955eeb19f999de8
   - enabled: 1
-    path: Assets/Scenes/Move 1.unity
+    path: Assets/Scenes/Move2.unity
+    guid: 6bece9fdd3c39df4a9ce25f56a3814e5
+  - enabled: 1
+    path: Assets/Scenes/Ending.unity
+    guid: 722022ef019e34a35b9544005072a542
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/Move3.unity
     guid: 288c873155dc3ab459cbf3a4db5d54eb
   m_configObjects: {}

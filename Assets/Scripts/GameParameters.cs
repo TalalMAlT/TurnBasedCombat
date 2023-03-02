@@ -8,6 +8,7 @@ public class GameParameters : MonoBehaviour
     public int playerLife=4;
     public int playerSpecialPoint=4;
     public int currentLevel=0;
+    [SerializeField] public int enemyLife;
 
     [RuntimeInitializeOnLoadMethod]
     static void Initialize()

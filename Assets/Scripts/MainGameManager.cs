@@ -16,6 +16,11 @@ public class MainGameManager : MonoBehaviour
     [SerializeField] private EnemyStatus _enemyStatus;
     [SerializeField] private GameObject buttonRoot;
     [SerializeField] private EnemyController _enemycontroller;
+    [SerializeField] private GameObject _idle;
+    [SerializeField] private GameObject _punch;
+    [SerializeField] private GameObject _kick;
+    [SerializeField] private GameObject _special;
+    [SerializeField] private GameObject _defend;
     enum MainGameState
     {
         PlayerActionWait,
@@ -25,7 +30,9 @@ public class MainGameManager : MonoBehaviour
     }
 
     private MainGameState _mainGameState;
+    private MainGameState _nextGameState;
     private int _stateCounter;
+    private float stateTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +43,46 @@ public class MainGameManager : MonoBehaviour
         ChangeState(MainGameState.PlayerActionWait);
     }
 
+    void SetAnimation(string animationName)
+    {
+        _idle.SetActive(false);
+        _punch.SetActive(false);
+        _idle.SetActive(false);
+        _special.SetActive(false);
+        _defend.SetActive(false);
+        Debug.Log("Anim : " + animationName);
+        switch(animationName)
+        {
+            case "idle":
+                _idle.SetActive(true);
+                break;
+            case "punch":
+                _punch.SetActive(true);
+                break;
+            case "kick":
+                _kick.SetActive(true);
+                break;
+            case "defend":
+                _defend.SetActive(true);
+                break;
+            case "special":
+                _special.SetActive(true);
+                break;
+
+        }
+
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if(_mainGameState != _nextGameState)
+        {
+            _mainGameState = _nextGameState;
+            _stateCounter = 0;
+            stateTimer = 0;
+        }
+
         switch (_mainGameState)
         {
             case MainGameState.PlayerActionWait:
@@ -54,12 +98,16 @@ public class MainGameManager : MonoBehaviour
                 UpdateEnemyActionDone();
                 break;
         }
+    }
+
+    void LateUpdate()
+    {
         _stateCounter++;
     }
 
     void UpdatePlayerActionWait()
     {
-        if (_stateCounter == 1)
+        if (_stateCounter == 0)
         {
             Debug.Log("Start UpdatePlayerActionWait");
             buttonRoot.SetActive(true);
@@ -71,22 +119,23 @@ public class MainGameManager : MonoBehaviour
 
     void UpdatePlayerActionDone()
     {
-        if (_stateCounter == 1)
+        Debug.Log("UpdatePlayerActionDone " + _stateCounter);
+        if (_stateCounter == 0)
         {
             Debug.Log("Start UpdatePlayerActionDone");
-            //timeRemaining=3;
-            //if(timeRemaining > 0){
-            //timeRemaining -= Time.deltaTime;
-            //}
-            buttonRoot.SetActive(false);
-            ChangeState(MainGameState.EnemyActionWait);
-
+            stateTimer = 2;
         }
+        stateTimer -= Time.deltaTime;
+        if(stateTimer > 0)
+             return;
+
+        SetAnimation("idle");
+        ChangeState(MainGameState.EnemyActionWait);
     }
 
     void UpdateEnemyActionWait()
     {
-        if (_stateCounter == 1)
+        if (_stateCounter == 0)
         {
             Debug.Log("Start UpdateEnemyActionWait");
             _enemycontroller.ChooseAction();
@@ -97,10 +146,10 @@ public class MainGameManager : MonoBehaviour
 
     void UpdateEnemyActionDone()
     {
-        if (_stateCounter == 1)
+        if (_stateCounter == 0)
         {
             float timeRemaining=1.0f;
-            if(timeRemaining > 0){
+            while(timeRemaining > 0){
             timeRemaining -= Time.deltaTime;
             }
             Debug.Log("Start UpdateEnemyActionDone");
@@ -121,8 +170,7 @@ public class MainGameManager : MonoBehaviour
 
     void ChangeState(MainGameState state)
     {
-        _mainGameState = state;
-        _stateCounter = 0;
+        _nextGameState = state;
     }
 
     public void Punch()
@@ -139,7 +187,8 @@ public class MainGameManager : MonoBehaviour
                 else
                 {
                     _enemyStatus.Damage(punchPower);
-                    
+                    SetAnimation("punch");
+
                 }
             }
             else
@@ -169,10 +218,15 @@ public class MainGameManager : MonoBehaviour
                 if (_enemyStatus.IsDefending == true)
                 {
                     _enemyStatus.Damage(1);
+                    _idle.SetActive(false);
+                    _kick.SetActive(true);
+
                 }
                 else
                 {
                     _enemyStatus.Damage(kickPower);
+                    SetAnimation("kick");
+
                 }
             }
             else
@@ -189,6 +243,8 @@ public class MainGameManager : MonoBehaviour
         Debug.Log("Defend");
         _playerStatus.IsDefending = true;
             SP_check();
+         SetAnimation("defend");
+
           ChangeState(MainGameState.PlayerActionDone);
         
             
@@ -201,6 +257,7 @@ public class MainGameManager : MonoBehaviour
         _enemyStatus.Damage(2);
         _playerStatus.SpecialPoint-=4;
         Debug.Log("Sp = "+_playerStatus.SpecialPoint);
+        SetAnimation("special");
         }
         else{
             Debug.Log("Points are not enough :)");

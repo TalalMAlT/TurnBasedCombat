@@ -14,19 +14,19 @@ public class PlayerMoveController : MonoBehaviour
         var position = playerRectTransform.anchoredPosition;
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            position.x += 1.0f;
+            position.x += 5.0f;
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            position.x -= 1.0f;
+            position.x -= 5.0f;
         }
         else if (Input.GetKey(KeyCode.UpArrow))
         {
-            position.y += 1.0f;
+            position.y += 5.0f;
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            position.y -= 1.0f;
+            position.y -= 5.0f;
         }
         playerRectTransform.anchoredPosition = position;
     }
